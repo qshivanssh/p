@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Shivansh Nigam — Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0e0e10;
+      --bg2: #16161a;
+      --bg3: #1e1e24;
+      --border: rgba(255,255,255,0.08);
+      --border-hover: rgba(255,255,255,0.18);
+      --text: #f0ede8;
+      --muted: #888880;
+      --accent: #b8a98e;
+      --accent2: #7c9fa6;
+      --serif: 'DM Serif Display', Georgia, serif;
+      --sans: 'DM Sans', sans-serif;
+      --mono: 'DM Mono', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Grain overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.35;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.25rem 3rem;
+      border-bottom: 1px solid var(--border);
+      background: rgba(14,14,16,0.85);
+      backdrop-filter: blur(12px);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-size: 20px;
+      color: var(--text);
+      letter-spacing: 0.01em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      letter-spacing: 0.08em;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: var(--text); }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      align-items: center;
+      padding: 6rem 3rem 4rem;
+      max-width: 1100px;
+      margin: 0 auto;
+      gap: 4rem;
+    }
+    .hero-text {}
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      color: var(--accent2);
+      text-transform: uppercase;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .hero-label::before {
+      content: '';
+      display: inline-block;
+      width: 28px;
+      height: 1px;
+      background: var(--accent2);
+    }
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(42px, 6vw, 72px);
+      line-height: 1.05;
+      color: var(--text);
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+    .hero-bio {
+      font-size: 15px;
+      color: var(--muted);
+      line-height: 1.8;
+      margin-bottom: 2.5rem;
+      max-width: 420px;
+    }
+    .hero-bio strong { color: var(--text); font-weight: 500; }
+    .hero-actions { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      padding: 10px 22px;
+      border-radius: 2px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: var(--bg);
+      border: 1px solid var(--accent);
+    }
+    .btn-primary:hover { background: #cfc0a8; }
+    .btn-outline {
+      background: transparent;
+      color: var(--text);
+      border: 1px solid var(--border-hover);
+    }
+    .btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+    .hero-visual {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 2rem;
+      width: 100%;
+      max-width: 320px;
+      position: relative;
+    }
+    .hero-card::before {
+      content: '';
+      position: absolute;
+      top: -1px; left: 24px; right: 24px;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent2), transparent);
+    }
+    .status-dot {
+      display: inline-block;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: #5dba6e;
+      margin-right: 8px;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+    .status-text {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--muted);
+      letter-spacing: 0.06em;
+    }
+    .card-name {
+      font-family: var(--serif);
+      font-size: 22px;
+      margin: 1rem 0 0.25rem;
+    }
+    .card-role {
+      font-size: 13px;
+      color: var(--muted);
+      margin-bottom: 1.25rem;
+    }
+    .card-divider { height: 1px; background: var(--border); margin-bottom: 1.25rem; }
+    .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    .stat-box { background: var(--bg3); padding: 12px; border-radius: 2px; }
+    .stat-num { font-family: var(--serif); font-size: 22px; color: var(--accent); }
+    .stat-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.08em; margin-top: 2px; }
+
+    /* SECTIONS */
+    section { padding: 5rem 3rem; max-width: 1100px; margin: 0 auto; }
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 3rem;
+    }
+    .section-num {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--accent2);
+      letter-spacing: 0.1em;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-size: 32px;
+      color: var(--text);
+    }
+    .section-line { flex: 1; height: 1px; background: var(--border); }
+
+    /* SKILLS */
+    .skills-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+    .skill-item {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      padding: 14px 16px;
+      transition: all 0.2s;
+    }
+    .skill-item:hover { border-color: var(--border-hover); background: var(--bg3); }
+    .skill-name { font-size: 14px; font-weight: 500; }
+    .skill-level { font-family: var(--mono); font-size: 10px; color: var(--muted); margin-top: 4px; letter-spacing: 0.06em; }
+
+    /* PROJECTS */
+    .projects-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+    .project-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 1.75rem;
+      transition: all 0.25s;
+      position: relative;
+      overflow: hidden;
+    }
+    .project-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--accent2), var(--accent));
+      transform: scaleX(0);
+      transition: transform 0.3s;
+      transform-origin: left;
+    }
+    .project-card:hover { border-color: var(--border-hover); transform: translateY(-2px); }
+    .project-card:hover::after { transform: scaleX(1); }
+    .project-number { font-family: var(--mono); font-size: 11px; color: var(--accent2); letter-spacing: 0.1em; margin-bottom: 0.75rem; }
+    .project-title { font-family: var(--serif); font-size: 20px; margin-bottom: 0.5rem; }
+    .project-desc { font-size: 13px; color: var(--muted); line-height: 1.7; margin-bottom: 1rem; }
+    .project-tech { display: flex; flex-wrap: wrap; gap: 6px; }
+    .tech-tag {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.06em;
+      color: var(--accent2);
+      background: rgba(124,159,166,0.08);
+      border: 1px solid rgba(124,159,166,0.2);
+      padding: 3px 8px;
+      border-radius: 2px;
+    }
+
+    /* ABOUT */
+    .about-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 3rem; align-items: start; }
+    .about-text { font-size: 15px; color: var(--muted); line-height: 1.9; }
+    .about-text strong { color: var(--text); font-weight: 500; }
+    .about-text p + p { margin-top: 1rem; }
+    .about-meta { display: flex; flex-direction: column; gap: 12px; }
+    .meta-item { padding: 14px 16px; background: var(--bg2); border: 1px solid var(--border); border-radius: 2px; }
+    .meta-label { font-family: var(--mono); font-size: 10px; color: var(--muted); letter-spacing: 0.1em; margin-bottom: 4px; }
+    .meta-value { font-size: 14px; font-weight: 500; }
+
+    /* CONTACT */
+    .contact-wrap {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 3rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .contact-wrap::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 20%; right: 20%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    }
+    .contact-heading { font-family: var(--serif); font-size: 36px; margin-bottom: 1rem; }
+    .contact-sub { font-size: 14px; color: var(--muted); margin-bottom: 2.5rem; }
+    .contact-links { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+    .contact-link {
+      font-family: var(--mono);
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      padding: 10px 22px;
+      border: 1px solid var(--border-hover);
+      border-radius: 2px;
+      color: var(--text);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .contact-link:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 2rem 3rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .footer-text { font-family: var(--mono); font-size: 11px; color: var(--muted); letter-spacing: 0.06em; }
+
+    /* ANIMATIONS */
+    .fade-in { opacity: 0; transform: translateY(20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .fade-in.visible { opacity: 1; transform: translateY(0); }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      nav { padding: 1rem 1.5rem; }
+      .nav-links { gap: 1.25rem; }
+      .hero { grid-template-columns: 1fr; padding: 6rem 1.5rem 3rem; gap: 2.5rem; }
+      .hero-visual { display: none; }
+      section { padding: 4rem 1.5rem; }
+      .about-grid { grid-template-columns: 1fr; }
+      footer { flex-direction: column; gap: 0.5rem; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <span class="nav-logo">Shivansh Nigam</span>
+    <ul class="nav-links">
+      <li><a href="#about">about</a></li>
+      <li><a href="#skills">skills</a></li>
+      <li><a href="#projects">projects</a></li>
+      <li><a href="#contact">contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-text">
+      <div class="hero-label">Portfolio · 2026</div>
+      <h1>Shivansh<br><em>Nigam</em></h1>
+      <p class="hero-bio">
+        <strong>2nd year CSE student</strong> with a passion for building software that solves real problems. I enjoy working across the stack, learning new technologies, and turning ideas into working products. Currently seeking internship opportunities where I can contribute, grow, and make an impact.
+      </p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View Projects</a>
+        <a href="#contact" class="btn btn-outline">Get in Touch</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="hero-card">
+        <div>
+          <span class="status-dot"></span>
+          <span class="status-text">OPEN TO INTERNSHIPS</span>
+        </div>
+        <p class="card-name">Shivansh Nigam</p>
+        <p class="card-role">CSE Student · Year 2</p>
+        <div class="card-divider"></div>
+        <div class="card-stats">
+          <div class="stat-box">
+            <div class="stat-num">2</div>
+            <div class="stat-label">YEARS IN CS</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">THINGS TO LEARN</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">7+</div>
+            <div class="stat-label">SKILLS</div>
+          </div>
+          <div class="stat-box">
+            <div class="stat-num">100%</div>
+            <div class="stat-label">PASSIONATE</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-header fade-in">
+      <span class="section-num">01</span>
+      <h2 class="section-title">About</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="about-grid fade-in">
+      <div class="about-text">
+        <p>
+          Hey! I'm <strong>Shivansh Nigam</strong>, a Computer Science student who genuinely loves to code. Whether it's cracking a tricky algorithm late at night or building a side project from scratch, I'm always up for a challenge.
+        </p>
+        <p>
+          I'm currently in my <strong>second year</strong>, exploring everything from data structures and algorithms to web development and beyond. I believe in learning by building — every project teaches me something new.
+        </p>
+        <p>
+          I'm on the lookout for <strong>internship opportunities</strong> where I can learn fast, contribute meaningfully, and work alongside great people on real-world problems.
+        </p>
+      </div>
+      <div class="about-meta">
+        <div class="meta-item">
+          <div class="meta-label">DEGREE</div>
+          <div class="meta-value">B.Tech CSE</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">YEAR</div>
+          <div class="meta-value">2nd Year</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">STATUS</div>
+          <div class="meta-value" style="color: #5dba6e;">Open to Internships</div>
+        </div>
+        <div class="meta-item">
+          <div class="meta-label">LOCATION</div>
+          <div class="meta-value">India</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-header fade-in">
+      <span class="section-num">02</span>
+      <h2 class="section-title">Skills</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="skills-grid fade-in">
+      <div class="skill-item"><div class="skill-name">C / C++</div><div class="skill-level">PROFICIENT</div></div>
+      <div class="skill-item"><div class="skill-name">Python</div><div class="skill-level">PROFICIENT</div></div>
+      <div class="skill-item"><div class="skill-name">HTML & CSS</div><div class="skill-level">PROFICIENT</div></div>
+      <div class="skill-item"><div class="skill-name">JavaScript</div><div class="skill-level">LEARNING</div></div>
+      <div class="skill-item"><div class="skill-name">Data Structures</div><div class="skill-level">INTERMEDIATE</div></div>
+      <div class="skill-item"><div class="skill-name">Algorithms</div><div class="skill-level">INTERMEDIATE</div></div>
+      <div class="skill-item"><div class="skill-name">Git & GitHub</div><div class="skill-level">INTERMEDIATE</div></div>
+      <div class="skill-item"><div class="skill-name">Linux</div><div class="skill-level">FAMILIAR</div></div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-header fade-in">
+      <span class="section-num">03</span>
+      <h2 class="section-title">Projects</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="projects-grid fade-in">
+      <div class="project-card">
+        <div class="project-number">PROJECT / 001</div>
+        <h3 class="project-title">Real-Time Violence Detector</h3>
+        <p class="project-desc">It can detect violent activities like fighting, assault, or aggressive behavior in real time and immediately generate alerts for faster response.</p>
+        <div class="project-tech">
+          <span class="tech-tag">PYTHON</span>
+          <span class="tech-tag">DEEP LEARNING</span>
+        </div>
+      </div>
+      <div class="project-card">
+        <div class="project-number">PROJECT / 003</div>
+        <h3 class="project-title">Coming Soon</h3>
+        <p class="project-desc">Always building. The next project is just around the corner.</p>
+        <div class="project-tech">
+          <span class="tech-tag">TBD</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-header fade-in">
+      <span class="section-num">04</span>
+      <h2 class="section-title">Contact</h2>
+      <div class="section-line"></div>
+    </div>
+    <div class="contact-wrap fade-in">
+      <h3 class="contact-heading">Let's build something.</h3>
+      <p class="contact-sub">Open to internships, collaborations, and interesting conversations.</p>
+      <div class="contact-links">
+        <a href="mailto:shivanshnigaam@gmail.com" class="contact-link">Email</a>
+        <a href="https://github.com/qshivanssh" class="contact-link" target="_blank">GitHub</a>
+        <a href="https://linkedin.com/in/yourusername" class="contact-link" target="_blank">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <span class="footer-text">© 2026 SHIVANSH NIGAM</span>
+    <span class="footer-text">BUILT FROM SCRATCH</span>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
